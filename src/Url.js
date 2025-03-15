@@ -1,0 +1,1 @@
+export const BACKEND_URL = "https://gift-mama-admin-backend-production.up.railway.app/admin/"
