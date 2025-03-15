@@ -7,7 +7,7 @@ import { SearchIcon } from "../icons/search";
 import { Notification } from "../icons/notifications";
 import { Package, ShoppingCart, CreditCard, Home } from "lucide-react";
 import { BACKEND_URL } from "../Url";
-import { UserPage } from '/Users/rishikchowdarykaruturi/in.culcate-admin-frontend/src/pages/user.jsx';
+import UserPage from "./user";
 import { ProductPage } from "./product";
 import { CategoryPage } from "./category";
 import { CustomizeHomePage } from "./customized";
