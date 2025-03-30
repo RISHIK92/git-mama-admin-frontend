@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../Url";
 import { GridIcon, List, Search, Filter, Edit, Trash, PlusCircle } from "lucide-react";
+import AddProductModal from "../components/addProduct";
 
 // Simplified Product Card for grid view
 const SimpleProductCard = ({ product, onEdit, onDelete, onClick }) => {
@@ -135,6 +136,7 @@ export function ProductPage() {
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [productToDelete, setProductToDelete] = useState(null);
+    const [addProduct, setAddProduct] = useState(false)
     const token = localStorage.getItem('authToken')
     
     const navigate = useNavigate();
@@ -178,7 +180,7 @@ export function ProductPage() {
     };
     
     const handleAddProduct = () => {
-        navigate('/add-product');
+       setAddProduct(true);
     };
     
     const handleEditProduct = (productId) => {
@@ -237,6 +239,7 @@ export function ProductPage() {
                     Add Product
                 </button>
             </div>
+            <AddProductModal isOpen={addProduct} onClose={() => setAddProduct(false)}/>
             
             <div className="flex justify-between mb-6">
                 <div className="flex gap-4">

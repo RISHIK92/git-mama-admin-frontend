@@ -1,1 +1,1 @@
-export const BACKEND_URL = "https://gift-mama-admin-backend-production.up.railway.app/admin/"
+export const BACKEND_URL = "http://localhost:3001/admin/"

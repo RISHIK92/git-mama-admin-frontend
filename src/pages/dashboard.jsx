@@ -5,7 +5,7 @@ import { Search } from "../components/search";
 import { Sidebar } from "../components/sidebar";
 import { SearchIcon } from "../icons/search";
 import { Notification } from "../icons/notifications";
-import { Package, ShoppingCart, CreditCard, Home } from "lucide-react";
+import { Package, ShoppingCart, CreditCard, Home, Users } from "lucide-react";
 import { BACKEND_URL } from "../Url";
 import { UserPage } from "./user";
 import { ProductPage } from "./product";
@@ -29,8 +29,8 @@ export function Dashboard() {
         .then(response => {
             setAdminName(response.data.admin.firstName || "Admin");
             // Uncomment and adjust based on your actual API response
-            // setTotalProducts(response.data.productCount);
-            // setTotalUsers(response.data.userCount);
+            setTotalProducts(response.data.products);
+            setTotalUsers(response.data.users);
             // setTotalSales(response.data.salesTotal);
             // setPendingOrders(response.data.pendingOrderCount);
         })
@@ -64,7 +64,7 @@ export function Dashboard() {
                             <h2 className="text-lg font-medium mb-4">Product Statistics</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                                 <StatCard icon={<Package size={20} />} text={totalProducts} heading="Total Products" />
-                                <StatCard icon={<ShoppingCart size={20} />} text={totalUsers} heading="Total Users" />
+                                <StatCard icon={<Users size={20} />} text={totalUsers} heading="Total Users" />
                                 <StatCard icon={<CreditCard size={20} />} text={totalSales} heading="Total Sales" />
                                 <StatCard icon={<ShoppingCart size={20} />} text={pendingOrders} heading="Pending Orders" />
                             </div>
