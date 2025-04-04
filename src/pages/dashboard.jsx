@@ -11,6 +11,9 @@ import { UserPage } from "./user";
 import { ProductPage } from "./product";
 import { CategoryPage } from "./category";
 import { CustomizeHomePage } from "./customized";
+import { OrderPage } from "./order";
+import { FlashSale } from "../components/flashSale";
+import { CouponPage } from "./couponPage";
 
 export function Dashboard() {
     const [activeItem, setActiveItem] = useState("Dashboard");
@@ -46,11 +49,13 @@ export function Dashboard() {
             case "Products":
                 return <ProductPage />;
             case "Orders":
-                return <div className="p-6 ml-72">Orders Content</div>;
+                return <OrderPage />;
             case "Coupons":
-                return <div className="p-6 ml-72">Coupons Content</div>;
+                return <CouponPage />
             case "Categories":
                 return <CategoryPage />;
+            case "Flash Sale":
+                return <FlashSale />;
             case "Customize":
                 return <CustomizeHomePage />;
             default:

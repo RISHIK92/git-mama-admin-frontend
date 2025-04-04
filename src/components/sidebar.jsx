@@ -91,6 +91,12 @@ export function Sidebar({ activeItem, setActiveItem }) {
                     onClick={() => setActiveItem("Coupons")} 
                 />
                 <SideBarItem 
+                    icon={<Tag size={20} />} 
+                    text="Flash Sale" 
+                    isActive={activeItem === "Flash Sale"} 
+                    onClick={() => setActiveItem("Flash Sale")} 
+                />
+                <SideBarItem 
                     icon={<Folder size={20} />} 
                     text="Categories" 
                     isActive={activeItem === "Categories"} 

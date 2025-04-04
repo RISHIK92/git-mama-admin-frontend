@@ -1,1 +1,1 @@
-export const BACKEND_URL = "http://localhost:3001/admin/"
+export const BACKEND_URL = "https://gift-mama-admin-backend.onrender.com/admin/"

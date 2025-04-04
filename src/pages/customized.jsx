@@ -227,7 +227,6 @@ const uploadImage = async (section, index) => {
     }
   };
 
-  // Add new hero banner slide
   const addHeroBannerSlide = () => {
     setHomeData(prev => ({
       ...prev,
@@ -240,7 +239,6 @@ const uploadImage = async (section, index) => {
     }));
   };
 
-  // Remove hero banner slide
   const removeHeroBannerSlide = (index) => {
     setHomeData(prev => ({
       ...prev,
@@ -514,7 +512,6 @@ const uploadImage = async (section, index) => {
       )}
 
       <div className="space-y-8">
-        {/* Hero Banner Section */}
         <section className="bg-white p-6 rounded-lg shadow-sm border">
           <h2 className="text-xl font-semibold mb-4 flex items-center">
             <ImageIcon className="h-5 w-5 mr-2 text-red-500" />
