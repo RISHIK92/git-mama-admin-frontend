@@ -51,7 +51,7 @@ export function Sidebar({ activeItem, setActiveItem }) {
             <div className="text-md pt-4">
                 <div className="flex justify-center items-center h-16">
                 <div className="mt-6 h-20 w-40">
-                    <img src="https://res.cloudinary.com/dvweoxpun/image/upload/v1740154234/photomama1_chtuu9.png"/>
+                    <img src="https://res.cloudinary.com/dvweoxpun/image/upload/v1740154234/photomama1_chtuu9.png" alt="Logo"/>
                 </div>
                 </div>
                 <div className="relative mt-4 mx-4 mb-4">

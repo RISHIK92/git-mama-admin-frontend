@@ -65,7 +65,7 @@ export function UserPage() {
     );
     
     return (
-        <div className="p-6 ml-72">
+        <div className="p-6">
             <div className="flex items-center mb-6">
                 <div className="text-2xl font-semibold flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 text-red-500">

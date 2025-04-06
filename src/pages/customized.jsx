@@ -435,7 +435,7 @@ const uploadImage = async (section, index) => {
   // Loading state
   if (loading) {
     return (
-      <div className="p-6 ml-72 flex flex-col h-screen">
+      <div className="p-6 flex flex-col h-screen">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Customize Home Page</h1>
         </div>
@@ -467,13 +467,12 @@ const uploadImage = async (section, index) => {
     return "";
   };
 
-  // Check if image is currently being uploaded
   const isUploading = (section, index) => {
     return uploadingImage.section === section && uploadingImage.index === index;
   };
 
   return (
-    <div className="p-6 ml-72">
+    <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Customize Home Page</h1>
         <button

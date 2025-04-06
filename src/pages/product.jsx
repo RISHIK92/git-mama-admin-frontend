@@ -5,7 +5,6 @@ import { BACKEND_URL } from "../Url";
 import { GridIcon, List, Search, Filter, Edit, Trash, PlusCircle } from "lucide-react";
 import AddProductModal from "../components/addProduct";
 
-// Simplified Product Card for grid view
 const SimpleProductCard = ({ product, onEdit, onDelete, onClick }) => {
     const handleEdit = (e) => {
         e.stopPropagation();
@@ -18,8 +17,8 @@ const SimpleProductCard = ({ product, onEdit, onDelete, onClick }) => {
     };
 
     return (
-        <div className="bg-white rounded-lg w-[270px] mb-8 cursor-pointer" onClick={onClick}>
-            <div className="bg-[#D9D9D9] rounded-xl relative overflow-hidden w-[270px] h-[270px]">
+        <div className="bg-white rounded-lg w-full mb-8 cursor-pointer" onClick={onClick}>
+            <div className="bg-[#D9D9D9] rounded-xl relative overflow-hidden w-full aspect-square">
                 {product.discount && (
                     <div className="bg-[#FF3B3B] absolute text-white text-xs px-2 py-1 left-2 top-2 rounded-lg">
                         {Math.round(product.discount)}% off
@@ -45,7 +44,7 @@ const SimpleProductCard = ({ product, onEdit, onDelete, onClick }) => {
                     </button>
                 </div>
             </div>
-            <div className="mt-3 w-[270px]">
+            <div className="mt-3 w-full">
                 <h2 className="text-lg font-semibold truncate">{product.name}</h2>
                 <div className="flex items-center gap-1 mt-1">
                     <span className="text-red-500 font-medium">₹{product.discountedPrice}</span>
@@ -75,10 +74,10 @@ const ProductListItem = ({ product, onEdit, onDelete, onClick }) => {
 
     return (
         <div 
-            className="bg-white rounded-lg p-4 mb-4 flex border shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+            className="bg-white rounded-lg p-4 mb-4 flex flex-col sm:flex-row border shadow-sm hover:shadow-md transition-shadow cursor-pointer"
             onClick={onClick}
         >
-            <div className="bg-[#D9D9D9] rounded-xl relative overflow-hidden w-[120px] h-[120px] flex-shrink-0">
+            <div className="bg-[#D9D9D9] rounded-xl relative overflow-hidden w-full sm:w-[120px] h-[120px] flex-shrink-0">
                 {product.discount && (
                     <div className="bg-[#FF3B3B] absolute text-white text-xs px-2 py-1 left-2 top-2 rounded-lg">
                         {Math.round(product.discount)}% off
@@ -90,7 +89,7 @@ const ProductListItem = ({ product, onEdit, onDelete, onClick }) => {
                     className="w-full h-full object-cover rounded-xl"
                 />
             </div>
-            <div className="ml-4 flex-grow">
+            <div className="mt-3 sm:mt-0 sm:ml-4 flex-grow">
                 <h2 className="text-lg font-semibold">{product.name}</h2>
                 <p className="text-sm text-gray-600 mt-1 line-clamp-2">{product.description}</p>
                 <div className="flex items-center gap-1 mt-2">
@@ -109,7 +108,7 @@ const ProductListItem = ({ product, onEdit, onDelete, onClick }) => {
                     <p className="text-red-500 text-xs font-medium mt-1">Out of stock</p>
                 )}
             </div>
-            <div className="flex flex-col gap-2 ml-4">
+            <div className="flex flex-row sm:flex-col gap-2 mt-3 sm:mt-0 sm:ml-4 justify-end">
                 <button 
                     onClick={handleEdit}
                     className="bg-blue-50 p-2 rounded-md hover:bg-blue-100"
@@ -136,8 +135,9 @@ export function ProductPage() {
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [productToDelete, setProductToDelete] = useState(null);
-    const [addProduct, setAddProduct] = useState(false)
-    const token = localStorage.getItem('authToken')
+    const [addProduct, setAddProduct] = useState(false);
+    const [isFilterVisible, setIsFilterVisible] = useState(false);
+    const token = localStorage.getItem('authToken');
     
     const navigate = useNavigate();
     
@@ -214,15 +214,19 @@ export function ProductPage() {
         setProductToDelete(null);
     };
     
+    const toggleFilterVisibility = () => {
+        setIsFilterVisible(!isFilterVisible);
+    };
+    
     const filteredProducts = products.filter(product => 
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()))
     );
     
     return (
-        <div className="p-6 ml-72">
-            <div className="flex items-center justify-between mb-6">
-                <div className="text-2xl font-semibold flex items-center">
+        <div className="p-3 md:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6">
+                <div className="text-xl md:text-2xl font-semibold flex items-center mb-3 sm:mb-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 text-red-500">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                         <line x1="3" y1="9" x2="21" y2="9"></line>
@@ -233,7 +237,7 @@ export function ProductPage() {
                 
                 <button 
                     onClick={handleAddProduct}
-                    className="flex items-center bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors"
+                    className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors w-full sm:w-auto"
                 >
                     <PlusCircle size={18} className="mr-2" />
                     Add Product
@@ -241,9 +245,20 @@ export function ProductPage() {
             </div>
             <AddProductModal isOpen={addProduct} onClose={() => setAddProduct(false)}/>
             
-            <div className="flex justify-between mb-6">
-                <div className="flex gap-4">
-                    <div className="relative w-[300px]">
+            {/* Mobile Filter Button */}
+            <div className="md:hidden mb-4">
+                <button 
+                    onClick={toggleFilterVisibility}
+                    className="w-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-md transition-colors"
+                >
+                    <Filter size={18} className="mr-2" />
+                    {isFilterVisible ? "Hide Filters" : "Show Filters"}
+                </button>
+            </div>
+            
+            <div className={`flex flex-col md:flex-row justify-between mb-4 md:mb-6 ${isFilterVisible || 'md:flex hidden'}`}>
+                <div className="flex flex-col md:flex-row gap-3 md:gap-4 w-full md:w-auto mb-3 md:mb-0">
+                    <div className="relative w-full md:w-[300px]">
                         <input 
                             type="text" 
                             placeholder="Search products..." 
@@ -257,7 +272,7 @@ export function ProductPage() {
                     </div>
                     
                     <select 
-                        className="pl-4 pr-8 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full md:w-auto pl-4 pr-8 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
                     >
@@ -270,7 +285,7 @@ export function ProductPage() {
                     </select>
                 </div>
                 
-                <div className="flex items-center">
+                <div className="flex items-center justify-end">
                     <span className="mr-2 text-sm text-gray-500">View:</span>
                     <button 
                         className={`p-2 rounded-md ${viewMode === 'grid' ? 'bg-red-100 text-red-500' : 'text-gray-500'}`}
@@ -294,7 +309,7 @@ export function ProductPage() {
                 </div>
             ) : filteredProducts.length > 0 ? (
                 viewMode === 'grid' ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
                         {filteredProducts.map(product => (
                             <SimpleProductCard 
                                 key={product.id} 
@@ -341,19 +356,19 @@ export function ProductPage() {
             
             {/* Delete Confirmation Modal */}
             {showDeleteConfirm && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-sm sm:max-w-md">
                         <h3 className="text-lg font-semibold mb-4">Confirm Delete</h3>
                         <p className="text-gray-600 mb-6">Are you sure you want to delete this product? This action cannot be undone.</p>
-                        <div className="flex justify-end gap-4">
+                        <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
                             <button 
-                                className="px-4 py-2 text-gray-600 border rounded-md hover:bg-gray-100"
+                                className="px-4 py-2 text-gray-600 border rounded-md hover:bg-gray-100 order-2 sm:order-1"
                                 onClick={cancelDelete}
                             >
                                 Cancel
                             </button>
                             <button 
-                                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 order-1 sm:order-2"
                                 onClick={confirmDelete}
                             >
                                 Delete

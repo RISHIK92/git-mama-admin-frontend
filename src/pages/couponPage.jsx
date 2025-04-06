@@ -242,7 +242,7 @@ export function CouponPage() {
     };
 
     return (
-        <div className="p-6 ml-72">
+        <div className="p-6">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center">
                     <Ticket className="mr-2 text-custom-red h-5 w-5" />

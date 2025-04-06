@@ -230,22 +230,25 @@ export function CategoryPage() {
     );
     
     return (
-        <div className="p-6 ml-72">
+        <div className="p-3 md:p-6">
             <AllCategoryPage />
             <OccasionsPage />
             <RecipientsPage />
-            <div className="text-2xl font-semibold flex items-center my-5 ml-1.5">
+            <div className="text-xl md:text-2xl font-semibold flex items-center my-3 md:my-5 ml-1.5">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 text-red-500">
                     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                 </svg>
                 Navbar Sections & Subsections
             </div>
-            <div className="grid grid-cols-12 gap-6">
-                <div className="col-span-6 bg-white rounded-lg border shadow-sm p-4">
-                    <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-medium">Section</h3>
-                        <div className="flex space-x-2">
-                            <div className="relative w-[250px]">
+            
+            {/* Responsive grid layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+                {/* Sections Column */}
+                <div className="lg:col-span-6 bg-white rounded-lg border shadow-sm p-3 md:p-4">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 space-y-3 md:space-y-0">
+                        <h3 className="text-lg font-medium">Section</h3>
+                        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 w-full md:w-auto">
+                            <div className="relative w-full md:w-[250px]">
                                 <input 
                                     type="text" 
                                     placeholder="Search sections..." 
@@ -260,7 +263,7 @@ export function CategoryPage() {
                                 </span>
                             </div>
                             <button 
-                                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center"
+                                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center justify-center"
                                 onClick={() => setShowAddSection(true)}
                                 disabled={isLoading}
                             >
@@ -273,79 +276,78 @@ export function CategoryPage() {
                         </div>
                     </div>
                     
-                    <div className="overflow-y-auto max-h-[calc(100vh-240px)]">
-                        {isLoading ? (
-                            <div className="text-center py-10">
-                                <p className="text-lg text-gray-500">Loading...</p>
-                            </div>
-                        ) : filteredSections.length > 0 ? (
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <div className="overflow-x-auto">
+                        <div className="overflow-y-auto max-h-[calc(100vh-320px)] md:max-h-[calc(100vh-240px)]">
+                            {isLoading ? (
+                                <div className="text-center py-10">
+                                    <p className="text-lg text-gray-500">Loading...</p>
+                                </div>
+                            ) : filteredSections.length > 0 ? (
+                                <div className="min-w-full divide-y divide-gray-200">
+                                    <div className="bg-gray-50 flex">
+                                        <div className="w-1/3 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Name
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        </div>
+                                        <div className="w-1/3 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Subsections
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        </div>
+                                        <div className="w-1/3 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {filteredSections.map((section) => (
-                                        <tr 
-                                            key={section.id}
-                                            className={selectedSection && selectedSection.id === section.id ? 'bg-red-50' : ''}
-                                            onClick={() => handleSectionSelect(section)}
-                                        >
-                                            <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
-                                                <div className="text-sm font-medium text-gray-900">
-                                                    {section.category}
+                                        </div>
+                                    </div>
+                                    <div className="bg-white divide-y divide-gray-200">
+                                        {filteredSections.map((section) => (
+                                            <div 
+                                                key={section.id}
+                                                className={`flex cursor-pointer hover:bg-gray-50 ${selectedSection && selectedSection.id === section.id ? 'bg-red-50' : ''}`}
+                                                onClick={() => handleSectionSelect(section)}
+                                            >
+                                                <div className="w-1/3 px-4 py-3 whitespace-nowrap">
+                                                    <div className="text-sm font-medium text-gray-900">
+                                                        {section.category}
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
-                                                <div className="text-sm text-gray-900">
-                                                    {section.subCategory?.length || 0}
+                                                <div className="w-1/3 py-3 flex justify-center whitespace-nowrap">
+                                                    <div className="text-sm text-gray-900 pr-8">
+                                                        {section.subCategory?.length || 0}
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                <button 
-                                                    className="text-blue-600 hover:text-blue-900 mr-3"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setEditItem({ type: 'section', data: section });
-                                                    }}
-                                                    disabled={isLoading}
-                                                >
-                                                    Edit
-                                                </button>
-                                                <button 
-                                                    className="text-red-600 hover:text-red-900"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleDeleteSection(section.id);
-                                                    }}
-                                                    disabled={isLoading}
-                                                >
-                                                    Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : (
-                            <div className="text-center py-10">
-                                <p className="text-lg text-gray-500">No sections found</p>
-                            </div>
-                        )}
+                                                <div className="w-1/3 px-4 py-3 whitespace-nowrap text-sm text-gray-500 flex space-x-2">
+                                                    <button 
+                                                        className="text-blue-600 hover:text-blue-900"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setEditItem({ type: 'section', data: section });
+                                                        }}
+                                                        disabled={isLoading}
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button 
+                                                        className="text-red-600 hover:text-red-900"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleDeleteSection(section.id);
+                                                        }}
+                                                        disabled={isLoading}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="text-center py-10">
+                                    <p className="text-lg text-gray-500">No sections found</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
                 
-                {/* Subsections Column */}
-                <div className="col-span-6 bg-white rounded-lg border shadow-sm p-4">
+                <div className="lg:col-span-6 bg-white rounded-lg border shadow-sm p-3 md:p-4">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-lg font-medium">Subsections</h3>
                         <button 
@@ -361,67 +363,67 @@ export function CategoryPage() {
                         </button>
                     </div>
                     
-                    <div className="overflow-y-auto max-h-[calc(100vh-240px)]">
-                        {selectedSection ? (
-                            selectedSection.subCategory && selectedSection.subCategory.length > 0 ? (
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <div className="overflow-x-auto">
+                        <div className="overflow-y-auto max-h-[calc(100vh-320px)] md:max-h-[calc(100vh-240px)]">
+                            {selectedSection ? (
+                                selectedSection.subCategory && selectedSection.subCategory.length > 0 ? (
+                                    <div className="min-w-full divide-y divide-gray-200">
+                                        <div className="bg-gray-50 flex">
+                                            <div className="w-1/2 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Name
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            </div>
+                                            <div className="w-1/2 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Actions
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                        {selectedSection.subCategory.map((subsection) => (
-                                            <tr key={subsection}>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm font-medium text-gray-900">
-                                                        {subsection}
+                                            </div>
+                                        </div>
+                                        <div className="bg-white divide-y divide-gray-200">
+                                            {selectedSection.subCategory.map((subsection) => (
+                                                <div key={subsection} className="flex hover:bg-gray-50">
+                                                    <div className="w-1/2 px-4 py-3 whitespace-nowrap">
+                                                        <div className="text-sm font-medium text-gray-900">
+                                                            {subsection}
+                                                        </div>
                                                     </div>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    <button 
-                                                        className="text-blue-600 hover:text-blue-900 mr-3"
-                                                        onClick={() => setEditItem({ type: 'subsection', data: subsection })}
-                                                        disabled={isLoading}
-                                                    >
-                                                        Edit
-                                                    </button>
-                                                    <button 
-                                                        className="text-red-600 hover:text-red-900"
-                                                        onClick={() => handleDeleteSubsection(subsection)}
-                                                        disabled={isLoading}
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                                    <div className="w-1/2 px-4 py-3 whitespace-nowrap text-sm text-gray-500 flex space-x-2">
+                                                        <button 
+                                                            className="text-blue-600 hover:text-blue-900"
+                                                            onClick={() => setEditItem({ type: 'subsection', data: subsection })}
+                                                            disabled={isLoading}
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button 
+                                                            className="text-red-600 hover:text-red-900"
+                                                            onClick={() => handleDeleteSubsection(subsection)}
+                                                            disabled={isLoading}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-10">
+                                        <p className="text-lg text-gray-500">No subsections found</p>
+                                        <p className="text-sm text-gray-400 mt-2">Add a subsection to {selectedSection.category}</p>
+                                    </div>
+                                )
                             ) : (
                                 <div className="text-center py-10">
-                                    <p className="text-lg text-gray-500">No subsections found</p>
-                                    <p className="text-sm text-gray-400 mt-2">Add a subsection to {selectedSection.category}</p>
+                                    <p className="text-lg text-gray-500">Select a section to view subsections</p>
                                 </div>
-                            )
-                        ) : (
-                            <div className="text-center py-10">
-                                <p className="text-lg text-gray-500">Select a section to view subsections</p>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
             
             {/* Add Section Modal */}
             {showAddSection && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-96">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 md:p-6 w-full max-w-md">
                         <h3 className="text-lg font-medium mb-4">Add New Section</h3>
                         <form onSubmit={handleAddSection}>
                             <div className="mb-4">
@@ -458,8 +460,8 @@ export function CategoryPage() {
             
             {/* Add Subsection Modal */}
             {showAddSubsection && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-96">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 md:p-6 w-full max-w-md">
                         <h3 className="text-lg font-medium mb-4">Add New Subsection</h3>
                         <form onSubmit={handleAddSubsection}>
                             <div className="mb-4">
@@ -507,44 +509,44 @@ export function CategoryPage() {
             
             {/* Edit Modal */}
             {editItem && (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div className="bg-white rounded-lg p-6 w-96">
-            <h3 className="text-lg font-medium mb-4">
-                Edit {editItem.type === 'section' ? 'Section' : 'Subsection'}
-            </h3>
-            <form onSubmit={editItem.type === 'section' ? handleEditSection : handleEditSubsection}>
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Name
-                    </label>
-                    <input 
-                        type="text" 
-                        name="name"
-                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                        defaultValue={editItem.type === 'section' ? editItem.data.category : editItem.data}
-                        required
-                    />
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 md:p-6 w-full max-w-md">
+                        <h3 className="text-lg font-medium mb-4">
+                            Edit {editItem.type === 'section' ? 'Section' : 'Subsection'}
+                        </h3>
+                        <form onSubmit={editItem.type === 'section' ? handleEditSection : handleEditSubsection}>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Name
+                                </label>
+                                <input 
+                                    type="text" 
+                                    name="name"
+                                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                                    defaultValue={editItem.type === 'section' ? editItem.data.category : editItem.data}
+                                    required
+                                />
+                            </div>
+                            <div className="flex justify-end space-x-2">
+                                <button 
+                                    type="button"
+                                    className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
+                                    onClick={() => setEditItem(null)}
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    type="submit"
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                    disabled={isLoading}
+                                >
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div className="flex justify-end space-x-2">
-                    <button 
-                        type="button"
-                        className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
-                        onClick={() => setEditItem(null)}
-                    >
-                        Cancel
-                    </button>
-                    <button 
-                        type="submit"
-                        className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                        disabled={isLoading}
-                    >
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-)}
+            )}
         </div>
     );
 }

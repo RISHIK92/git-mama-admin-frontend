@@ -248,7 +248,7 @@ export function FlashSale() {
   };
 
   return (
-    <div className="p-6 ml-72">
+    <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Flash Sales</h1>
         {!isCreating && !isEditing && (

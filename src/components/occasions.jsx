@@ -185,14 +185,13 @@ export function OccasionsPage() {
         }
     };
     
-    // Filter occasions based on search term
     const filteredOccasions = occasions.filter(occ => 
         occ.occasions.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
-        <div className="w-full mt-6">
-            <div className="text-2xl font-semibold flex items-center mb-4">
+        <div className="w-full mt-4">
+            <div className="text-xl sm:text-2xl font-semibold flex items-center mb-4">
                 Occasions Management
             </div>
             
@@ -208,13 +207,12 @@ export function OccasionsPage() {
                 </div>
             )}
             
-            <div className="grid grid-cols-12 gap-6">
-                {/* Occasions Column */}
-                <div className="col-span-6 bg-white rounded-lg border shadow-sm p-4">
-                    <div className="flex justify-between items-center mb-4">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+                <div className="lg:col-span-12 xl:col-span-6 bg-white rounded-lg border shadow-sm p-3 sm:p-4">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 sm:gap-0">
                         <h3 className="text-lg font-medium">Occasions</h3>
-                        <div className="flex space-x-2">
-                            <div className="relative w-[250px]">
+                        <div className="flex flex-col sm:flex-row w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2">
+                            <div className="relative w-full sm:w-[250px]">
                                 <input 
                                     type="text" 
                                     placeholder="Search occasions..."
@@ -229,7 +227,7 @@ export function OccasionsPage() {
                                 </span>
                             </div>
                             <button 
-                                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center"
+                                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center justify-center w-full sm:w-auto"
                                 onClick={() => setShowAddOccasion(true)}
                                 disabled={isLoading}
                             >
@@ -242,74 +240,145 @@ export function OccasionsPage() {
                         </div>
                     </div>
                     
-                    <div className="overflow-y-auto max-h-[calc(100vh-240px)]">
-                        {isLoading ? (
-                            <div className="text-center py-10">
-                                <p className="text-lg text-gray-500">Loading...</p>
-                            </div>
-                        ) : filteredOccasions.length > 0 ? (
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Occasion
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {filteredOccasions.map((occasion) => (
-                                        <tr 
-                                            key={occasion.id}
-                                            className={selectedOccasion && selectedOccasion.id === occasion.id ? 'bg-red-50' : ''}
-                                            onClick={() => handleOccasionSelect(occasion)}
-                                        >
-                                            <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
-                                                <div className="text-sm font-medium text-gray-900">
-                                                    {occasion.occasions}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                <button 
-                                                    className="text-blue-600 hover:text-blue-900 mr-3"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setEditItem(occasion);
-                                                    }}
-                                                    disabled={isLoading}
+                    <div className="overflow-x-auto">
+                        <div className="overflow-y-auto max-h-[calc(100vh-240px)]">
+                            {isLoading ? (
+                                <div className="text-center py-10">
+                                    <p className="text-lg text-gray-500">Loading...</p>
+                                </div>
+                            ) : filteredOccasions.length > 0 ? (
+                                <div className="min-w-full">
+                                    <table className="min-w-full divide-y divide-gray-200">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Occasion
+                                                </th>
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {filteredOccasions.map((occasion) => (
+                                                <tr 
+                                                    key={occasion.id}
+                                                    className={selectedOccasion && selectedOccasion.id === occasion.id ? 'bg-red-50' : ''}
+                                                    onClick={() => handleOccasionSelect(occasion)}
                                                 >
-                                                    Edit
-                                                </button>
-                                                <button 
-                                                    className="text-red-600 hover:text-red-900"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleDeleteOccasion(occasion.id);
-                                                    }}
-                                                    disabled={isLoading}
-                                                >
-                                                    Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : (
-                            <div className="text-center py-10">
-                                <p className="text-lg text-gray-500">No occasions found</p>
-                            </div>
-                        )}
+                                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap cursor-pointer">
+                                                        <div className="text-sm font-medium text-gray-900">
+                                                            {occasion.occasions}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
+                                                        <div className="flex space-x-3">
+                                                            <button 
+                                                                className="text-blue-600 hover:text-blue-900"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setEditItem(occasion);
+                                                                }}
+                                                                disabled={isLoading}
+                                                            >
+                                                                Edit
+                                                            </button>
+                                                            <button 
+                                                                className="text-red-600 hover:text-red-900"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleDeleteOccasion(occasion.id);
+                                                                }}
+                                                                disabled={isLoading}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <div className="text-center py-10">
+                                    <p className="text-lg text-gray-500">No occasions found</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
+                
+                {/* Suboccasions Column - Will display when an occasion is selected */}
+                {selectedOccasion && (
+                    <div className="lg:col-span-12 xl:col-span-6 bg-white rounded-lg border shadow-sm p-3 sm:p-4">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 sm:gap-0">
+                            <h3 className="text-lg font-medium">
+                                Suboccasions for {selectedOccasion.occasions}
+                            </h3>
+                            <button 
+                                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center justify-center w-full sm:w-auto"
+                                onClick={() => setShowAddSuboccasion(true)}
+                                disabled={isLoading}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                Add Suboccasion
+                            </button>
+                        </div>
+                        
+                        <div className="overflow-x-auto">
+                            <div className="overflow-y-auto max-h-[calc(100vh-240px)]">
+                                {selectedOccasion.suboccasions?.length > 0 ? (
+                                    <table className="min-w-full divide-y divide-gray-200">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Suboccasion
+                                                </th>
+                                                <th scope="col" className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {selectedOccasion.suboccasions.map((suboccasion, index) => (
+                                                <tr key={index}>
+                                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                                        <div className="text-sm font-medium text-gray-900">
+                                                            {suboccasion}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
+                                                        <button 
+                                                            className="text-red-600 hover:text-red-900"
+                                                            onClick={() => handleDeleteSuboccasion(selectedOccasion.id, suboccasion)}
+                                                            disabled={isLoading}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="text-center py-10">
+                                        <p className="text-lg text-gray-500">No suboccasions found</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
             
             {/* Add Occasion Modal */}
             {showAddOccasion && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-96">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-sm">
                         <h3 className="text-lg font-medium mb-4">Add New Occasion</h3>
                         <form onSubmit={handleAddOccasion}>
                             <div className="mb-4">
@@ -346,8 +415,8 @@ export function OccasionsPage() {
             
             {/* Edit Occasion Modal */}
             {editItem && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-96">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-sm">
                         <h3 className="text-lg font-medium mb-4">Edit Occasion</h3>
                         <form onSubmit={handleEditOccasion}>
                             <div className="mb-4">
@@ -376,6 +445,45 @@ export function OccasionsPage() {
                                     disabled={isLoading}
                                 >
                                     {isLoading ? 'Updating...' : 'Update'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            
+            {/* Add Suboccasion Modal */}
+            {showAddSuboccasion && selectedOccasion && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-sm">
+                        <h3 className="text-lg font-medium mb-4">Add New Suboccasion</h3>
+                        <form onSubmit={handleAddSuboccasion}>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    For Occasion: <span className="font-semibold">{selectedOccasion.occasions}</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    name="suboccasionName"
+                                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                                    placeholder="Enter suboccasion name"
+                                    required
+                                />
+                            </div>
+                            <div className="flex justify-end space-x-2">
+                                <button 
+                                    type="button"
+                                    className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
+                                    onClick={() => setShowAddSuboccasion(false)}
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    type="submit"
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? 'Saving...' : 'Save'}
                                 </button>
                             </div>
                         </form>

@@ -191,8 +191,8 @@ export function RecipientsPage() {
     );
     
     return (
-        <div className="w-full mt-6">
-            <div className="text-2xl font-semibold flex items-center mb-4">
+        <div className="lg:w-1/2 mt-6">
+            <div className="text-xl sm:text-2xl font-semibold flex items-center mb-4">
                 Recipients Management
             </div>
             
@@ -208,13 +208,13 @@ export function RecipientsPage() {
                 </div>
             )}
             
-            <div className="grid grid-cols-12 gap-6">
+            <div className="w-full">
                 {/* Recipients Column */}
-                <div className="col-span-6 bg-white rounded-lg border shadow-sm p-4">
-                    <div className="flex justify-between items-center mb-4">
+                <div className="w-full bg-white rounded-lg border shadow-sm p-4">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-3 sm:space-y-0">
                         <h3 className="text-lg font-medium">Recipients</h3>
-                        <div className="flex space-x-2">
-                            <div className="relative w-[250px]">
+                        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+                            <div className="relative w-full sm:w-[250px]">
                                 <input 
                                     type="text" 
                                     placeholder="Search recipients..."
@@ -229,7 +229,7 @@ export function RecipientsPage() {
                                 </span>
                             </div>
                             <button 
-                                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center"
+                                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center justify-center w-full sm:w-auto"
                                 onClick={() => setShowAddRecipient(true)}
                                 disabled={isLoading}
                             >
@@ -242,74 +242,80 @@ export function RecipientsPage() {
                         </div>
                     </div>
                     
-                    <div className="overflow-y-auto max-h-[calc(100vh-240px)]">
-                        {isLoading ? (
-                            <div className="text-center py-10">
-                                <p className="text-lg text-gray-500">Loading...</p>
-                            </div>
-                        ) : filteredRecipients.length > 0 ? (
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Recipient
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {filteredRecipients.map((recipient) => (
-                                        <tr 
-                                            key={recipient.id}
-                                            className={selectedRecipient && selectedRecipient.id === recipient.id ? 'bg-red-50' : ''}
-                                            onClick={() => handleRecipientSelect(recipient)}
-                                        >
-                                            <td className="px-6 py-4 whitespace-nowrap cursor-pointer">
-                                                <div className="text-sm font-medium text-gray-900">
-                                                    {recipient.recipients}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                <button 
-                                                    className="text-blue-600 hover:text-blue-900 mr-3"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setEditItem(recipient);
-                                                    }}
-                                                    disabled={isLoading}
+                    <div className="overflow-x-auto">
+                        <div className="overflow-y-auto max-h-[calc(100vh-240px)]">
+                            {isLoading ? (
+                                <div className="text-center py-10">
+                                    <p className="text-lg text-gray-500">Loading...</p>
+                                </div>
+                            ) : filteredRecipients.length > 0 ? (
+                                <div className="min-w-full">
+                                    <table className="min-w-full divide-y divide-gray-200">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" className="px-2 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Recipient
+                                                </th>
+                                                <th scope="col" className="px-2 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {filteredRecipients.map((recipient) => (
+                                                <tr 
+                                                    key={recipient.id}
+                                                    className={selectedRecipient && selectedRecipient.id === recipient.id ? 'bg-red-50' : ''}
+                                                    onClick={() => handleRecipientSelect(recipient)}
                                                 >
-                                                    Edit
-                                                </button>
-                                                <button 
-                                                    className="text-red-600 hover:text-red-900"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleDeleteRecipient(recipient.id);
-                                                    }}
-                                                    disabled={isLoading}
-                                                >
-                                                    Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : (
-                            <div className="text-center py-10">
-                                <p className="text-lg text-gray-500">No recipients found</p>
-                            </div>
-                        )}
+                                                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap cursor-pointer">
+                                                        <div className="text-sm font-medium text-gray-900">
+                                                            {recipient.recipients}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-2 sm:px-6 py-4 whitespace-nowrap text-sm">
+                                                        <div className="flex space-x-2">
+                                                            <button 
+                                                                className="text-blue-600 hover:text-blue-900"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setEditItem(recipient);
+                                                                }}
+                                                                disabled={isLoading}
+                                                            >
+                                                                Edit
+                                                            </button>
+                                                            <button 
+                                                                className="text-red-600 hover:text-red-900"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleDeleteRecipient(recipient.id);
+                                                                }}
+                                                                disabled={isLoading}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <div className="text-center py-10">
+                                    <p className="text-lg text-gray-500">No recipients found</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
             
             {/* Add Recipient Modal */}
             {showAddRecipient && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-96">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md">
                         <h3 className="text-lg font-medium mb-4">Add New Recipient</h3>
                         <form onSubmit={handleAddRecipient}>
                             <div className="mb-4">
@@ -323,17 +329,17 @@ export function RecipientsPage() {
                                     required
                                 />
                             </div>
-                            <div className="flex justify-end space-x-2">
+                            <div className="flex flex-col sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-2">
                                 <button 
                                     type="button"
-                                    className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
+                                    className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100 w-full sm:w-auto"
                                     onClick={() => setShowAddRecipient(false)}
                                 >
                                     Cancel
                                 </button>
                                 <button 
                                     type="submit"
-                                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 w-full sm:w-auto"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? 'Saving...' : 'Save'}
@@ -346,8 +352,8 @@ export function RecipientsPage() {
             
             {/* Edit Recipient Modal */}
             {editItem && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-96">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md">
                         <h3 className="text-lg font-medium mb-4">Edit Recipient</h3>
                         <form onSubmit={handleEditRecipient}>
                             <div className="mb-4">
@@ -362,20 +368,58 @@ export function RecipientsPage() {
                                     required
                                 />
                             </div>
-                            <div className="flex justify-end space-x-2">
+                            <div className="flex flex-col sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-2">
                                 <button 
                                     type="button"
-                                    className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
+                                    className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100 w-full sm:w-auto"
                                     onClick={() => setEditItem(null)}
                                 >
                                     Cancel
                                 </button>
                                 <button 
                                     type="submit"
-                                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 w-full sm:w-auto"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? 'Updating...' : 'Update'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            
+            {/* Add Group Modal */}
+            {showAddGroup && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md">
+                        <h3 className="text-lg font-medium mb-4">Add New Group</h3>
+                        <form onSubmit={handleAddGroup}>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Group Name
+                                </label>
+                                <input 
+                                    type="text" 
+                                    name="groupName"
+                                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                                    required
+                                />
+                            </div>
+                            <div className="flex flex-col sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-2">
+                                <button 
+                                    type="button"
+                                    className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100 w-full sm:w-auto"
+                                    onClick={() => setShowAddGroup(false)}
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    type="submit"
+                                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 w-full sm:w-auto"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? 'Saving...' : 'Save'}
                                 </button>
                             </div>
                         </form>
