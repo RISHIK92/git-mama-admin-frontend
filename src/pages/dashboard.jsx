@@ -14,6 +14,8 @@ import { CustomizeHomePage } from "./customized";
 import { OrderPage } from "./order";
 import { FlashSale } from "../components/flashSale";
 import { CouponPage } from "./couponPage";
+import { AdminPage } from "./admin";
+import { Testimonials } from "../components/testmonials";
 
 export function Dashboard() {
     const [activeItem, setActiveItem] = useState("Dashboard");
@@ -65,6 +67,8 @@ export function Dashboard() {
         switch (activeItem) {
             case "Users":
                 return <UserPage />;
+            case "Admins":
+                return <AdminPage />
             case "Products":
                 return <ProductPage />;
             case "Orders":
@@ -77,6 +81,8 @@ export function Dashboard() {
                 return <FlashSale />;
             case "Customize":
                 return <CustomizeHomePage />;
+            case "Testimonials":
+                return <Testimonials />;
             default:
                 return (
                     <div className="p-4 md:p-6">

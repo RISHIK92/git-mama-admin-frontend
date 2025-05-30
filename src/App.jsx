@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import './App.css';
-import './index.css';
-import { Signup } from './pages/signup';
-import { Signin } from './pages/signin';
-import { Dashboard } from './pages/dashboard';
+import { useState } from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import "./App.css";
+import "./index.css";
+import { Signup } from "./pages/signup";
+import { Signin } from "./pages/signin";
+import { Dashboard } from "./pages/dashboard";
 
 function App() {
   const [count, setCount] = useState(0);

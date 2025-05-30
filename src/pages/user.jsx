@@ -72,7 +72,7 @@ export function UserPage() {
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
-                    User information
+                    Customer information
                 </div>
             </div>
             
@@ -94,7 +94,7 @@ export function UserPage() {
                         <Filter size={16} />
                     </button>
                 </div>
-                
+{/*                 
                 <button 
                     className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md flex items-center"
                     onClick={() => setShowAddUser(true)}
@@ -104,18 +104,18 @@ export function UserPage() {
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
-                    Add New User
-                </button>
+                    Add New Customer
+                </button> */}
             </div>
             
             {showAddUser ? (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <Add 
+                    {/* <Add 
                         name="User" 
                         role="User" 
                         onClose={() => setShowAddUser(false)} 
                         fetch={() => fetchUsers()}
-                    />
+                    /> */}
                 </div>
             ) : (
                 <div className="bg-white rounded-lg border shadow-sm p-6">
@@ -178,7 +178,7 @@ export function UserPage() {
                                                     Delete
                                                 </button>
                                                 <button 
-                                                    className="text-blue-600 hover:text-blue-900"
+                                                    className="text-red-600 hover:text-red-900"
                                                     disabled={isLoading}
                                                 >
                                                     Edit
@@ -191,7 +191,7 @@ export function UserPage() {
                         </div>
                     ) : (
                         <div className="text-center py-10">
-                            <p className="text-lg text-gray-500">No users found</p>
+                            <p className="text-lg text-gray-500">No customers found</p>
                         </div>
                     )}
                 </div>
