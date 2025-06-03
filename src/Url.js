@@ -1,1 +1,1 @@
-export const BACKEND_URL = "http://localhost:3001/admin/"
+export const BACKEND_URL = import.meta.env.VITE_ADMIN_BACKEND_URL;

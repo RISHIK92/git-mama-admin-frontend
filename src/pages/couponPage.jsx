@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Box } from "../components/box";
 import { Tag, Ticket, Trash2, Edit2, Plus, Calendar, CheckCircle, XCircle } from "lucide-react";
 import { BACKEND_URL } from "../Url";
 
