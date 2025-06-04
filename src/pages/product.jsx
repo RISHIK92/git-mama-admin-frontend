@@ -26,10 +26,7 @@ const SimpleProductCard = ({ product, onEdit, onDelete, onClick }) => {
   };
 
   return (
-    <div
-      className="bg-white rounded-lg w-full mb-8 cursor-pointer"
-      onClick={onClick}
-    >
+    <div className="bg-white rounded-lg w-full mb-8" onClick={onClick}>
       <div className="bg-[#D9D9D9] rounded-xl relative overflow-hidden w-full aspect-square">
         {product.discount && (
           <div className="bg-[#FF3B3B] absolute text-white text-xs px-2 py-1 left-2 top-2 rounded-lg">
@@ -154,7 +151,7 @@ export function ProductPage() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [viewMode, setViewMode] = useState("grid"); // "grid" or "list"
+  const [viewMode, setViewMode] = useState("list"); // "grid" or "list"
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -445,7 +442,6 @@ export function ProductPage() {
               <SimpleProductCard
                 key={product.id}
                 product={product}
-                onClick={() => handleProductClick(product.id)}
                 onEdit={handleEditProduct}
                 onDelete={handleDeleteClick}
               />
