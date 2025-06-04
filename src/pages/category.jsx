@@ -5,7 +5,7 @@ import { AllCategoryPage } from "./allCategories";
 import { OccasionsPage } from "../components/occasions";
 import { RecipientsPage } from "./recipients";
 
-const MAX_SECTIONS = 4; // Maximum number of sections allowed
+const MAX_SECTIONS = 3; // Maximum number of sections allowed
 
 export function CategoryPage() {
   const [showAddSection, setShowAddSection] = useState(false);

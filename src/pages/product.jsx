@@ -353,6 +353,10 @@ export function ProductPage() {
 
       <AddProductModal
         isOpen={addProduct}
+        onSuccess={(newProduct) => {
+          alert("Product created:", newProduct);
+          setAddProduct(false);
+        }}
         onClose={() => setAddProduct(false)}
       />
 

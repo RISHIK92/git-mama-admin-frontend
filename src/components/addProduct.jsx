@@ -539,6 +539,7 @@ const AddProductModal = ({ isOpen, onClose, onSuccess }) => {
       productData.append("discountedPrice", formData.discountedPrice);
       productData.append("discount", formData.discount);
       productData.append("stock", formData.stock);
+      productData.append("deliveryFee", formData.deliveryFee || "0");
       productData.append("youtubeLink", formData.youtubeLink);
       productData.append("inclusiveOfTaxes", formData.inclusiveOfTaxes);
       productData.append("requirements", formData.requirements);
@@ -655,18 +656,34 @@ const AddProductModal = ({ isOpen, onClose, onSuccess }) => {
       });
 
       // Handle success
-      if (response.status === 201 || response.status === 200) {
+      if (response.status === 201) {
         onSuccess(response.data);
         resetForm();
         onClose();
       }
     } catch (error) {
-      console.error("Error creating product:", error);
+      if (error.response) {
+        const serverError = error.response.data;
 
-      if (error.response && error.response.data && error.response.data.errors) {
-        setErrors(error.response.data.errors);
+        if (serverError.error === "Image validation failed") {
+          setErrors({
+            ...errors,
+            mainImage: serverError.message,
+            displayImage: serverError.message,
+          });
+        } else if (serverError.invalidFields) {
+          const fieldErrors = {};
+          serverError.invalidFields.forEach((field) => {
+            fieldErrors[field] = `Please enter a valid number`;
+          });
+          setErrors(fieldErrors);
+        } else {
+          alert(serverError.message || "Server error occurred");
+        }
+      } else if (error.request) {
+        alert("Network error - please check your connection");
       } else {
-        alert("Failed to create product. Please try again.");
+        alert("Error: " + error.message);
       }
     } finally {
       setIsLoading(false);
@@ -979,8 +996,6 @@ const AddProductModal = ({ isOpen, onClose, onSuccess }) => {
                   name="deliveryFee"
                   value={formData.deliveryFee}
                   onChange={handleChange}
-                  min="0"
-                  step="0.01"
                   className="w-full p-2 border border-gray-300 rounded-md"
                 />
                 <p className="mt-1 text-xs text-gray-500">
