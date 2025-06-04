@@ -14,8 +14,8 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
     isCustomizable: false,
     categoryId: "",
     subsectionId: "",
-    occasion: "",
-    recipients: "",
+    occasions: [],
+    recipients: [],
     keepExistingImages: true,
     deleteTemplates: false,
     customizationTemplates: [],
@@ -24,8 +24,8 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subsections, setSubsections] = useState([]);
-  const [occasions, setOccasions] = useState([]);
-  const [recipients, setRecipients] = useState([]);
+  const [allOccasions, setAllOccasions] = useState([]);
+  const [allRecipients, setAllRecipients] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const token = localStorage.getItem("authToken");
@@ -58,10 +58,9 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
       ]);
 
       setCategories(categoriesRes.data.categories);
-      setOccasions(occasionsRes.data.occasions);
-      setRecipients(recipientsRes.data.recipients);
+      setAllOccasions(occasionsRes.data.occasions);
+      setAllRecipients(recipientsRes.data.recipients);
 
-      // If product data is already loaded, fetch subsections for its category
       if (product.categoryId) {
         const selectedCat = categoriesRes.data.categories.find(
           (cat) => cat.id.toString() === product.categoryId
@@ -89,14 +88,21 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
         ...productData,
         categoryId: productData.categoryId || "",
         subsectionId: productData.subsectionId || "",
-        occasion: productData.occasion || "",
-        recipients: productData.recipients || "",
+        occasions: Array.isArray(productData.occasion)
+          ? productData.occasion
+          : productData.occasion
+          ? [productData.occasion]
+          : [],
+        recipients: Array.isArray(productData.recipients)
+          ? productData.recipients
+          : productData.recipients
+          ? [productData.recipients]
+          : [],
         keepExistingImages: true,
         deleteTemplates: false,
       });
       setImages(productData.images || []);
 
-      // Fetch subsections for the product's category
       if (productData.categoryId) {
         const selectedCat = categories.find(
           (cat) => cat.id.toString() === productData.categoryId
@@ -156,7 +162,6 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
         [name]: newValue,
       };
 
-      // When category changes, fetch subsections
       if (name === "categoryId") {
         const selectedCat = categories.find(
           (cat) => cat.id.toString() === value
@@ -164,11 +169,38 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
         if (selectedCat) {
           fetchSubsections(selectedCat.categories || selectedCat.category);
         }
-        // Reset subsection when category changes
         updatedProduct.subsectionId = "";
       }
 
       return updatedProduct;
+    });
+  };
+
+  const handleOccasionChange = (occasionValue) => {
+    setProduct((prev) => {
+      const currentOccasions = prev.occasions || [];
+      const newOccasions = currentOccasions.includes(occasionValue)
+        ? currentOccasions.filter((o) => o !== occasionValue)
+        : [...currentOccasions, occasionValue];
+
+      return {
+        ...prev,
+        occasions: newOccasions,
+      };
+    });
+  };
+
+  const handleRecipientChange = (recipientValue) => {
+    setProduct((prev) => {
+      const currentRecipients = prev.recipients || [];
+      const newRecipients = currentRecipients.includes(recipientValue)
+        ? currentRecipients.filter((r) => r !== recipientValue)
+        : [...currentRecipients, recipientValue];
+
+      return {
+        ...prev,
+        recipients: newRecipients,
+      };
     });
   };
 
@@ -248,6 +280,8 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
           formData.append("categoryId", categoryName);
         } else if (key === "subsectionId") {
           formData.append("subsectionId", subsectionName);
+        } else if (key === "occasions" || key === "recipients") {
+          formData.append(key, JSON.stringify(product[key]));
         } else if (key !== "images") {
           formData.append(key, product[key]);
         }
@@ -375,44 +409,6 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Occasion
-                </label>
-                <select
-                  name="occasion"
-                  value={product.occasion || ""}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                >
-                  <option value="">Select Occasion</option>
-                  {occasions.map((occasion) => (
-                    <option key={occasion.id} value={occasion.occasions}>
-                      {occasion.occasions}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Recipients
-                </label>
-                <select
-                  name="recipients"
-                  value={product.recipients || ""}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                >
-                  <option value="">Select Recipient</option>
-                  {recipients.map((recipient) => (
-                    <option key={recipient.id} value={recipient.recipients}>
-                      {recipient.recipients}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Delivery Fee (₹)
                 </label>
                 <input
@@ -425,32 +421,75 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
                   step="0.01"
                 />
               </div>
+            </div>
 
-              {/* <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="isCustomizable"
-                  checked={product.isCustomizable || false}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-red-500 rounded focus:ring-2 focus:ring-red-500"
-                />
-                <label className="ml-2 text-sm text-gray-700">
-                  Is Customizable
-                </label>
-              </div> */}
-
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="keepExistingImages"
-                  checked={product.keepExistingImages || false}
-                  onChange={handleChange}
-                  className="h-4 w-4 text-red-500 rounded focus:ring-2 focus:ring-red-500"
-                />
-                <label className="ml-2 text-sm text-gray-700">
-                  Keep Existing Images
-                </label>
+            {/* Occasions Checkbox Group */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Occasions
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {allOccasions.map((occasion) => (
+                  <div key={occasion.id} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={`occasion-${occasion.id}`}
+                      checked={product.occasions?.includes(occasion.occasions)}
+                      onChange={() => handleOccasionChange(occasion.occasions)}
+                      className="h-4 w-4 text-red-500 rounded focus:ring-2 focus:ring-red-500"
+                    />
+                    <label
+                      htmlFor={`occasion-${occasion.id}`}
+                      className="ml-2 text-sm text-gray-700"
+                    >
+                      {occasion.occasions}
+                    </label>
+                  </div>
+                ))}
               </div>
+            </div>
+
+            {/* Recipients Checkbox Group */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Recipients
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {allRecipients.map((recipient) => (
+                  <div key={recipient.id} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={`recipient-${recipient.id}`}
+                      checked={product.recipients?.includes(
+                        recipient.recipients
+                      )}
+                      onChange={() =>
+                        handleRecipientChange(recipient.recipients)
+                      }
+                      className="h-4 w-4 text-red-500 rounded focus:ring-2 focus:ring-red-500"
+                    />
+                    <label
+                      htmlFor={`recipient-${recipient.id}`}
+                      className="ml-2 text-sm text-gray-700"
+                    >
+                      {recipient.recipients}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center mb-4">
+              <input
+                type="checkbox"
+                name="keepExistingImages"
+                checked={product.keepExistingImages || false}
+                onChange={handleChange}
+                className="h-4 w-4 text-red-500 rounded focus:ring-2 focus:ring-red-500"
+              />
+              <label className="ml-2 text-sm text-gray-700">
+                Keep Existing Images
+              </label>
             </div>
 
             <div className="mb-4">
@@ -696,8 +735,6 @@ function EditProductModal({ isOpen, onClose, productId, onProductUpdated }) {
                             </select>
                           </div>
                         </div>
-
-                        {/* More area fields can be added here */}
                       </div>
                     ))}
                   </div>
